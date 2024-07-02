@@ -1,4 +1,4 @@
-package com.example.eshop.product;
+package com.example.eshop.model.product;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

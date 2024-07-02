@@ -1,7 +1,7 @@
 package com.example.eshop;
 
-import com.example.eshop.product.Product;
-import com.example.eshop.product.ProductService;
+import com.example.eshop.model.product.Product;
+import com.example.eshop.model.product.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -26,11 +26,11 @@ public class AppStartupRunner implements CommandLineRunner {
         }
         try {
             // Creating 5 product instances
-            Product product1 = new Product("Smartphone", 799.99, "High-performance smartphone with dual cameras");
-            Product product2 = new Product("Laptop", 1299.99, "Thin and lightweight laptop with SSD storage");
-            Product product3 = new Product("Headphones", 149.99, "Wireless headphones with noise-canceling feature");
-            Product product4 = new Product("Smart Watch", 199.99, "Fitness tracker with heart rate monitor");
-            Product product5 = new Product("Tablet", 499.99, "10-inch tablet with HD display");
+            Product product1 = new Product("iPhone 13", "Smartphone", 999.99, "Latest iPhone model with advanced features", "https://example.com/iphone.jpg");
+            Product product2 = new Product("Samsung Galaxy Tab S7", "Tablet", 649.99, "High-performance Android tablet with S Pen", "https://example.com/galaxy-tab.jpg");
+            Product product3 = new Product("Dell XPS 15", "Laptop", 1499.99, "Powerful laptop for professional use", "https://example.com/dell-xps.jpg");
+            Product product4 = new Product("Sony PlayStation 5", "Gaming Console", 499.99, "Next-gen gaming console with 4K gaming support", "https://example.com/ps5.jpg");
+            Product product5 = new Product("Bose QuietComfort 45", "Headphones", 329.99, "Premium noise-canceling headphones with excellent sound quality", "https://example.com/bose-headphones.jpg");
 
             productService.saveProduct(product1);
             productService.saveProduct(product2);
