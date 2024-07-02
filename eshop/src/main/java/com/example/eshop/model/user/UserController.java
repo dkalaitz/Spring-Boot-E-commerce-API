@@ -5,13 +5,13 @@ import com.example.eshop.dto.cart.CartProductRequest;
 import com.example.eshop.model.cart.CartItem;
 import com.example.eshop.model.product.Product;
 import com.example.eshop.model.product.ProductService;
-import com.mongodb.DuplicateKeyException;
+import jakarta.validation.Valid;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,7 @@ public class UserController {
         return userService.getUserCartItems(userId);
     }
 
+    // Cart Interaction APIs
     @PostMapping("/addToCart")
     public ResponseEntity<String> addToCart(@RequestBody AddToCartRequest request) {
       try {
@@ -109,26 +110,27 @@ public class UserController {
         }
     }
 
+    // Authentication
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User loginRequest) {
+    public ResponseEntity<String> loginUser(@NotNull @Valid @RequestBody User loginRequest) {
         Optional<User> user = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
         if (user.isPresent()) {
             return ResponseEntity.ok("Login successful");
         } else {
-            return ResponseEntity.status(401).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
         try {
             User savedUser = userService.registerUser(user);
-            return ResponseEntity.ok("User registered successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
-            if (e instanceof DuplicateKeyException) {
-                return ResponseEntity.status(409).body(e.getMessage());
+            if (e.getMessage().contains("Username or email already exists")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
             } else {
-                return ResponseEntity.status(500).body("Username or email already exists");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user");
             }
         }
     }

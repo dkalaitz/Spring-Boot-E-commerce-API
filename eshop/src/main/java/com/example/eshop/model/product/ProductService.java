@@ -31,6 +31,15 @@ public class ProductService {
         return productRepository.count() == 0;
     }
 
-    // Add more methods as needed (e.g., updateProduct, findByCriteria, etc.)
+    public List<Product> getTypeProducts(String type) {
+        return productRepository.findByType(type);
+    }
+
+    public List<Product> getSearchedProducts(String searchTerm) {
+        // Modify searchTerm to be a valid regex pattern (case-insensitive)
+        String regexPattern = ".*" + searchTerm + ".*";
+        return productRepository.findByNameRegex(regexPattern);
+    }
+
 }
 

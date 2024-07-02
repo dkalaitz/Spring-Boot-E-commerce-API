@@ -6,6 +6,7 @@ import com.example.eshop.model.product.Product;
 import com.example.eshop.model.product.ProductRepository;
 import com.example.eshop.model.product.ProductService;
 import com.mongodb.DuplicateKeyException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
-
     public Optional<User> getUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
@@ -28,15 +28,16 @@ public class UserService {
         return userRepo.findById(id);
     }
 
+    // Cart Services
     @Transactional
-    public void addProductToCart(User user, Product product, int quantity) {
+    public void addProductToCart(@NotNull User user, Product product, int quantity) {
             CartItem cartItem = new CartItem(product, quantity);
             user.getCart().addItem(cartItem);
             userRepo.save(user);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean reduceProductQuantity(User user, String productId){
+    public boolean reduceProductQuantity(@NotNull User user, String productId){
         if (user.getCart().getItems().isEmpty()){
             return false;
         }
@@ -59,17 +60,17 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<CartItem> getUserCartItems(String userId){
         Optional<User> user = userRepo.findById(userId);
-        List<CartItem> items = user.get().getCart().getItems();
-        return items;
+        return user.get().getCart().getItems();
     }
 
-    private boolean productExistsInCart(User user, String productId) {
+    private boolean productExistsInCart(@NotNull User user, String productId) {
         List<CartItem> cartItems = getUserCartItems(user.getId());
 
         return cartItems.stream()
                 .anyMatch(cartItem -> cartItem.getProduct().getId().equals(productId));
     }
 
+    // Authorization Services
     @Transactional(readOnly = true)
     public Optional<User> loginUser(String username, String password) {
         Optional<User> optionalUser = userRepo.findByUsername(username);
@@ -83,7 +84,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public User registerUser(User user) throws Exception {
+    public User registerUser(@NotNull User user) throws Exception {
         // Check if username or email already exists
         if (usernameExists(user.getUsername()) || emailExists(user.getEmail())) {
             throw new Exception("Username or email already exists");

@@ -1,6 +1,9 @@
 package com.example.eshop.model.user;
 
 import com.example.eshop.model.cart.Cart;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -12,13 +15,20 @@ public class User {
     private String id;
 
     @Indexed(unique = true)
+    @NotNull
+    @Size(min = 4, max = 20)
     private String username;
 
     @Indexed(unique = true)
+    @NotNull
+    @Email(message = "Email should be valid")
     private String email;
 
+    @NotNull
+    @Size(min = 6, max = 20)
     private String password;
 
+    @NotNull
     private String fullName;
 
     private Cart cart = new Cart(); // Initialize cart explicitly

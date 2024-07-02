@@ -38,6 +38,20 @@ public class AppStartupRunner implements CommandLineRunner {
             productService.saveProduct(product4);
             productService.saveProduct(product5);
 
+            // Creating 5 additional product instances
+            Product product6 = new Product("Google Pixel 6 Pro", "Smartphone", 899.99, "Flagship smartphone from Google with advanced camera features", "https://example.com/google-pixel.jpg");
+            Product product7 = new Product("Microsoft Surface Pro 8", "Tablet", 1199.99, "Versatile 2-in-1 device for productivity", "https://example.com/surface-pro.jpg");
+            Product product8 = new Product("HP Spectre x360", "Laptop", 1299.99, "Premium convertible laptop with stunning design", "https://example.com/hp-spectre.jpg");
+            Product product9 = new Product("Nintendo Switch OLED", "Gaming Console", 349.99, "Updated Nintendo Switch with OLED screen", "https://example.com/nintendo-switch.jpg");
+            Product product10 = new Product("Sony WH-1000XM4", "Headphones", 299.99, "Industry-leading noise-canceling headphones with superb audio quality", "https://example.com/sony-headphones.jpg");
+
+            // Saving the additional products using ProductService
+            productService.saveProduct(product6);
+            productService.saveProduct(product7);
+            productService.saveProduct(product8);
+            productService.saveProduct(product9);
+            productService.saveProduct(product10);
+
             logger.info("Product initialization complete.");
         } catch (Exception e) {
             logger.error("Error occurred during product initialization: {}", e.getMessage());

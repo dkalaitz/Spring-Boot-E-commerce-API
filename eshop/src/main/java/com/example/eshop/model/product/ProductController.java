@@ -13,6 +13,16 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping("/getTypeProducts")
+    public List<Product> getTypeProducts(@RequestParam String type){
+        return productService.getTypeProducts(type);
+    }
+
+    @GetMapping("/searchProduct")
+    public List<Product> getSearchedProducts(@RequestParam String searchTerm){
+        return productService.getSearchedProducts(searchTerm);
+    }
+
     @GetMapping("/getAllProducts")
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
