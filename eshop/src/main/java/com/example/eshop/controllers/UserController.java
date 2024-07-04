@@ -1,14 +1,18 @@
-package com.example.eshop.model.user;
+package com.example.eshop.controllers;
 
 import com.example.eshop.dto.cart.AddToCartRequest;
 import com.example.eshop.dto.cart.CartProductRequest;
-import com.example.eshop.model.cart.CartItem;
-import com.example.eshop.model.product.Product;
-import com.example.eshop.model.product.ProductService;
+import com.example.eshop.dto.user.LoginRequest;
+import com.example.eshop.model.CartItem;
+import com.example.eshop.model.Product;
+import com.example.eshop.service.ProductService;
+import com.example.eshop.model.User;
+import com.example.eshop.service.UserService;
 import jakarta.validation.Valid;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -26,9 +30,9 @@ public class UserController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/home")
-    public String home(){
-        return "Home";
+    @GetMapping("/helloWorld")
+    public ResponseEntity<String> sayHello(){
+        return ResponseEntity.ok("Hello from secured endpoint");
     }
 
     @GetMapping("/myCart")
@@ -110,33 +114,5 @@ public class UserController {
         }
     }
 
-    // Authentication
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@NotNull @Valid @RequestBody User loginRequest) {
-        Optional<User> user = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user.isPresent()) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
-        try {
-            User savedUser = userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-        } catch (Exception e) {
-            if (e.getMessage().contains("Username or email already exists")) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user");
-            }
-        }
-    }
-
-    @GetMapping("/api/private")
-    public String privateEndpoint() {
-        return "This is a private endpoint!";
-    }
 }
+

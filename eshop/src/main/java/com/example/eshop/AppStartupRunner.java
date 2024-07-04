@@ -1,7 +1,7 @@
 package com.example.eshop;
 
-import com.example.eshop.model.product.Product;
-import com.example.eshop.model.product.ProductService;
+import com.example.eshop.model.Product;
+import com.example.eshop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

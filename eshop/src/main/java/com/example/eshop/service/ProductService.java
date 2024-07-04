@@ -1,9 +1,12 @@
-package com.example.eshop.model.product;
+package com.example.eshop.service;
 
+import com.example.eshop.model.Product;
+import com.example.eshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class ProductService {
@@ -36,9 +39,11 @@ public class ProductService {
     }
 
     public List<Product> getSearchedProducts(String searchTerm) {
-        // Modify searchTerm to be a valid regex pattern (case-insensitive)
-        String regexPattern = ".*" + searchTerm + ".*";
-        return productRepository.findByNameRegex(regexPattern);
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            Pattern pattern = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
+            return productRepository.findByNameRegex(pattern);
+        }
+        return null; // or return an empty list if preferred
     }
 
 }
