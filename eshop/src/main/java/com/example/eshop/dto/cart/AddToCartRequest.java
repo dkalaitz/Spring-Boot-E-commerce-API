@@ -1,8 +1,5 @@
 package com.example.eshop.dto.cart;
 
-import com.example.eshop.model.cart.CartItem;
-import com.example.eshop.model.user.User;
-
 public class AddToCartRequest {
     private String userId;
     private String productId;

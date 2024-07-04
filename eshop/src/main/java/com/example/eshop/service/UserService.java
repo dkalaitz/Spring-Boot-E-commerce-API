@@ -1,21 +1,27 @@
-package com.example.eshop.model.user;
+package com.example.eshop.service;
 
-import com.example.eshop.model.cart.Cart;
-import com.example.eshop.model.cart.CartItem;
-import com.example.eshop.model.product.Product;
-import com.example.eshop.model.product.ProductRepository;
-import com.example.eshop.model.product.ProductService;
-import com.mongodb.DuplicateKeyException;
+import com.example.eshop.model.CartItem;
+import com.example.eshop.model.Product;
+import com.example.eshop.model.User;
+import com.example.eshop.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepo;
@@ -27,6 +33,7 @@ public class UserService {
     public Optional<User> getUserById(String id) {
         return userRepo.findById(id);
     }
+
 
     // Cart Services
     @Transactional
@@ -83,7 +90,7 @@ public class UserService {
         return Optional.empty();
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    /*@Transactional(rollbackFor = Exception.class)
     public User registerUser(@NotNull User user) throws Exception {
         // Check if username or email already exists
         if (usernameExists(user.getUsername()) || emailExists(user.getEmail())) {
@@ -100,19 +107,8 @@ public class UserService {
                 throw e; // Rethrow the exception if it's not a duplicate key error
             }
         }
-    }
+    }*/
 
-    // Method to check if username exists
-    private boolean usernameExists(String username) {
-        Optional<User> existingUser = userRepo.findByUsername(username);
-        return existingUser.isPresent();
-    }
-
-    // Method to check if email exists
-    private boolean emailExists(String email) {
-        Optional<User> existingUser = userRepo.findByEmail(email);
-        return existingUser.isPresent();
-    }
 
 
 }

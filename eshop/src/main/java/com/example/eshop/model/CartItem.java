@@ -1,6 +1,4 @@
-package com.example.eshop.model.cart;
-
-import com.example.eshop.model.product.Product;
+package com.example.eshop.model;
 
 public class CartItem {
 

@@ -1,5 +1,7 @@
-package com.example.eshop.model.product;
+package com.example.eshop.controllers;
 
+import com.example.eshop.model.Product;
+import com.example.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductController {
 
     @Autowired

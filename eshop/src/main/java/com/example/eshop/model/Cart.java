@@ -1,6 +1,5 @@
-package com.example.eshop.model.cart;
+package com.example.eshop.model;
 
-import com.example.eshop.model.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 
