@@ -4,6 +4,7 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -11,6 +12,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @EnableMongoRepositories(basePackages = "com.example.eshop") // Adjust to your repository package
 public class MongoConfig extends AbstractMongoClientConfiguration {
+
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoUri;
 
     @Override
     public boolean autoIndexCreation() {
@@ -24,7 +28,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/eshop_db");
+        ConnectionString connectionString = new ConnectionString(mongoUri);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
