@@ -1,19 +1,14 @@
 package com.example.eshop.controllers;
 
-import com.example.eshop.dto.cart.AddToCartRequest;
-import com.example.eshop.dto.cart.CartProductRequest;
-import com.example.eshop.dto.user.LoginRequest;
+import com.example.eshop.dto.user.UserProfileDetailsDTO;
 import com.example.eshop.model.CartItem;
 import com.example.eshop.model.Product;
 import com.example.eshop.security.jwt.JwtService;
 import com.example.eshop.service.ProductService;
 import com.example.eshop.model.User;
 import com.example.eshop.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -37,6 +32,12 @@ public class UserController {
     @GetMapping("/helloWorld")
     public ResponseEntity<String> sayHello(){
         return ResponseEntity.ok("Hello from secured endpoint");
+    }
+
+    @GetMapping("/myProfile")
+    public UserProfileDetailsDTO getUserProfileDetails(@RequestHeader("Authorization") String authHeader){
+        return userService.getUserProfileDetails(jwtService.extractUsername(
+                jwtService.extractTokenFromHeader(authHeader)));
     }
 
     @GetMapping("/myCart")

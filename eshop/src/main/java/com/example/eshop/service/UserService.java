@@ -1,19 +1,15 @@
 package com.example.eshop.service;
 
+import com.example.eshop.dto.user.UserProfileDetailsDTO;
 import com.example.eshop.model.CartItem;
 import com.example.eshop.model.Product;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
-import com.example.eshop.security.jwt.JwtService;
-import io.jsonwebtoken.Claims;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,12 +67,21 @@ public class UserService {
         return user.get().getCart().getItems();
     }
 
+
+
+    public UserProfileDetailsDTO getUserProfileDetails(String username) {
+        Optional<User> user = userRepo.findByUsername(username);
+        UserProfileDetailsDTO userProfile = new UserProfileDetailsDTO(user.get().getUsername(),
+                user.get().getFullName(),
+                user.get().getCart());
+        return userProfile;
+    }
+
     private boolean productExistsInCart(@NotNull User user, String productId) {
         List<CartItem> cartItems = getUserCartItems(user.getUsername());
 
         return cartItems.stream()
                 .anyMatch(cartItem -> cartItem.getProduct().getId().equals(productId));
     }
-
 
 }

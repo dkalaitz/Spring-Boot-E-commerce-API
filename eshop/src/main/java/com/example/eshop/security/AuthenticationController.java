@@ -3,6 +3,7 @@ package com.example.eshop.security;
 
 import com.example.eshop.security.dtoAuth.AuthenticationRequest;
 import com.example.eshop.security.dtoAuth.RegisterRequest;
+import com.example.eshop.security.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,10 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> signup(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader){
+        return ResponseEntity.ok(authService.logout(authHeader));
     }
 }
