@@ -107,7 +107,7 @@ This project is a Spring Boot application for an e-commerce platform, demonstrat
 
 - **Accessible Endpoints without Authentication**
   - GET `/api/products/getTypeProducts`: Returns a specific type list of products. Type is a required parameter.
-  - GET `api/products/searchProduct`: Returns products that similar have similar name with a search term. A search term parameter is required.
+  - GET `api/products/searchProduct`: Returns products that have similar name with a search term. A searchTerm parameter is required.
   - GET `/api/products/getAllProducts`: Returns all products.
   - GET `/api/products/getProduct`: Returns a product based on id. ProductId parameter is required.
   - POST `/api/products/addProduct`: Adds a product.
