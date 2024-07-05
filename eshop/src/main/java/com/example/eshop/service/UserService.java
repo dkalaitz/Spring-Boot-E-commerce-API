@@ -4,6 +4,7 @@ import com.example.eshop.model.CartItem;
 import com.example.eshop.model.Product;
 import com.example.eshop.model.User;
 import com.example.eshop.repository.UserRepository;
+import com.example.eshop.security.jwt.JwtService;
 import io.jsonwebtoken.Claims;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeProductFromCart(User user, String productId){
+    public boolean removeProductFromCart(@NotNull User user, String productId){
         if (productExistsInCart(user, productId)){
             user.getCart().removeItem(productId);
             userRepo.save(user);
@@ -65,50 +66,17 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<CartItem> getUserCartItems(String userId){
-        Optional<User> user = userRepo.findById(userId);
+    public List<CartItem> getUserCartItems(String username){
+        Optional<User> user = userRepo.findByUsername(username);
         return user.get().getCart().getItems();
     }
 
     private boolean productExistsInCart(@NotNull User user, String productId) {
-        List<CartItem> cartItems = getUserCartItems(user.getId());
+        List<CartItem> cartItems = getUserCartItems(user.getUsername());
 
         return cartItems.stream()
                 .anyMatch(cartItem -> cartItem.getProduct().getId().equals(productId));
     }
-
-    // Authorization Services
-    @Transactional(readOnly = true)
-    public Optional<User> loginUser(String username, String password) {
-        Optional<User> optionalUser = userRepo.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (user.getPassword().equals(password)) {
-                return Optional.of(user);
-            }
-        }
-        return Optional.empty();
-    }
-
-    /*@Transactional(rollbackFor = Exception.class)
-    public User registerUser(@NotNull User user) throws Exception {
-        // Check if username or email already exists
-        if (usernameExists(user.getUsername()) || emailExists(user.getEmail())) {
-            throw new Exception("Username or email already exists");
-        }
-
-        try {
-            // Perform your user registration logic here
-            return userRepo.save(user);
-        } catch (DuplicateKeyException e) {
-            if (e.getCode() == 11000) { // Duplicate key error code
-                throw new Exception("Username or email already exists");
-            } else {
-                throw e; // Rethrow the exception if it's not a duplicate key error
-            }
-        }
-    }*/
-
 
 
 }
