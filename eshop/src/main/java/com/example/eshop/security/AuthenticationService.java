@@ -9,6 +9,7 @@ import com.example.eshop.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import com.example.eshop.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +29,7 @@ public class AuthenticationService {
     private  AuthenticationManager authenticationManager;
 
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = new User(request.getUsername(),
@@ -37,8 +38,7 @@ public class AuthenticationService {
                 request.getFullName(),
                 Role.USER);
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return ("Registered Successfully");
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
