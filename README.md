@@ -53,7 +53,7 @@ This project is a Spring Boot application for an e-commerce platform, demonstrat
    - Pull the Docker images for the application, MongoDB, and Redis:
 
      ```bash
-     dkalaitz/my-ecommerce-api
+     docker pull dkalaitz/my-ecommerce-api
      docker pull mongo:latest
      docker pull redis:latest
      ```
