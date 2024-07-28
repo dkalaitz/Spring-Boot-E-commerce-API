@@ -43,7 +43,7 @@ public class ProductService {
             Pattern pattern = Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE);
             return productRepository.findByNameRegex(pattern);
         }
-        return null; // or return an empty list if preferred
+        return null;
     }
 
 }

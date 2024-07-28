@@ -40,6 +40,7 @@ public class UserController {
                 jwtService.extractTokenFromHeader(authHeader)));
     }
 
+
     @GetMapping("/myCart")
     public List<CartItem> myCart(@RequestHeader("Authorization") String authHeader) {
         String token = jwtService.extractTokenFromHeader(authHeader);

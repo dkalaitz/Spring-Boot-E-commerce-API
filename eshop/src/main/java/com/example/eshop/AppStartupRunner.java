@@ -55,7 +55,6 @@ public class AppStartupRunner implements CommandLineRunner {
             logger.info("Product initialization complete.");
         } catch (Exception e) {
             logger.error("Error occurred during product initialization: {}", e.getMessage());
-            // Handle or rethrow the exception as needed
             throw e;
         }
     }

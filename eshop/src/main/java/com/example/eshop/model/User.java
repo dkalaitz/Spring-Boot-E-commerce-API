@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @NotNull
     private String fullName;
 
-    private Cart cart = new Cart(); // Initialize cart explicitly
+    private Cart cart = new Cart();
 
     private Role role;
 
